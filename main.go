@@ -6,11 +6,14 @@ import (
 	"os"
 	"strings"
 
-	"student-manager/student" // 資料夾路徑
+	"student-manager/student"
 )
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
+
+	service := student.NewManager()
+	handler := student.NewHandler(service, reader)
 
 	for {
 		fmt.Println("\n===== 學生管理系統 =====")
@@ -27,18 +30,24 @@ func main() {
 
 		switch choice {
 		case "1":
-			student.AddStudent()
+			handler.AddStudent()
+
 		case "2":
-			student.SearchStudent()
+			handler.GetStudentById()
+
 		case "3":
-			student.SearchAllStudents()
+			handler.GetAll()
+
 		case "4":
-			student.UpdateStudent()
+			handler.UpdateStudent()
+
 		case "5":
-			student.DeleteStudent()
+			handler.DeleteStudent()
+
 		case "6":
 			fmt.Println("系統結束")
 			return
+
 		default:
 			fmt.Println("無效選項，請重新輸入")
 		}
